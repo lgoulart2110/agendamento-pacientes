@@ -1,0 +1,36 @@
+﻿@model AgendamentoPacientes.Models.Convenio
+
+@{
+    ViewData["Title"] = "Excluir Convênio";
+    var error = ViewBag.error;
+}
+
+<h1>Excluir Convênio</h1>
+
+<h3>Deseja realmente excluir esse convênio?</h3>
+<div>
+
+    <hr />
+    @if (error != null)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Excluir" class="btn btn-danger" />
+
+    </form>
+    <a asp-action="Index">
+        <button class="btn btn-primary mt-2">Cancelar</button>
+    </a>
+</div>

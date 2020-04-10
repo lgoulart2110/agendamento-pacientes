@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AgendamentoPaciente.Data;
 using AgendamentoPacientes.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agendamento.Controllers
 {
@@ -56,27 +57,34 @@ namespace Agendamento.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var clinica = _context.Clinicas.Find(id);            
+            return View(clinica);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            ViewBag.error = null;
             try
             {
                 var clinica = _context.Clinicas.Find(id);
 
-                if (clinica == null)
+                var agendamentoExistenteClinica = _context.Agendamentos.Where(e => e.ClinicaId == id);
+                if (agendamentoExistenteClinica.Count() > 0)
                 {
-                    return Json(new { error = "Agendamento não encontrado!" });
+                    throw new Exception("Não é possível excluir essa clínica pois existem agendamentos para a mesma.");
                 }
-                else
-                {
-                    _context.Clinicas.Remove(clinica);
-                    _context.SaveChanges();
-                    return Json(new { success = "Agendamento excluído!" });
-                }
+                _context.Clinicas.Remove(clinica);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return Json(new { error = e.Message });
+                ViewBag.error = e.Message;
+                var clinica = _context.Clinicas.Find(id);
+                return View("Delete", clinica);
             }
         }
     }

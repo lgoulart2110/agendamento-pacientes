@@ -46,10 +46,10 @@
                     @Html.DisplayFor(modelItem => item.DataAtendimento)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SituacaoAgentamento.Situacao)
+                    @Html.DisplayFor(modelItem => item.SituacaoAgendamento.Situacao)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Paciente.Convenio != null ? item.Paciente.Convenio.Nome : "Particular")
+                    @Html.DisplayFor(modelItem => item.Paciente.Convenio.Nome)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

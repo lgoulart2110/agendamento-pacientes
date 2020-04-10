@@ -11,14 +11,16 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ClinicaId" />
+            <input type="hidden" asp-for="PacienteId" />
             <div class="form-group">
                 <label asp-for="ClinicaId" class="control-label"></label>
-                <select asp-for="ClinicaId" class="form-control" asp-items="ViewBag.Clinica"></select>
+                <select asp-for="ClinicaId" class="form-control" asp-items="ViewBag.Clinica" disabled></select>
                 <span asp-validation-for="ClinicaId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PacienteId" class="control-label"></label>
-                <select asp-for="PacienteId" class="form-control" asp-items="ViewBag.Paciente"></select>
+                <select asp-for="PacienteId" class="form-control" asp-items="ViewBag.Paciente" disabled></select>
                 <span asp-validation-for="PacienteId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,16 +28,11 @@
                 <input asp-for="DataAtendimento" class="form-control" />
                 <span asp-validation-for="DataAtendimento" class="text-danger"></span>
             </div>
-
-            @if (Model.Paciente.Convenio != null)
-            {
-                <div class="form-group">
-                    <label asp-for="Paciente.ConvenioId" class="control-label"></label>
-                    <select asp-for="Paciente.ConvenioId" class="form-control" asp-items="ViewBag.Convenio"></select>
-                    <span asp-validation-for="Paciente.ConvenioId" class="text-danger"></span>
-                </div>
-            }
-
+            <div class="form-group">
+                <label asp-for="Paciente.ConvenioId" class="control-label"></label>
+                <select asp-for="Paciente.ConvenioId" class="form-control" asp-items="ViewBag.Convenio" disabled></select>
+                <span asp-validation-for="Paciente.ConvenioId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="SituacaoAgendamentoId" class="control-label"></label>
                 <select asp-for="SituacaoAgendamentoId" class="form-control" asp-items="ViewBag.SituacaoAgendamento"></select>

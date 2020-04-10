@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AgendamentoPaciente.Data;
 using AgendamentoPacientes.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agendamento.Controllers
 {
@@ -18,7 +19,7 @@ namespace Agendamento.Controllers
         }
         public IActionResult Index()
         {
-            var convenios = _context.Conveios.ToList();
+            var convenios = _context.Convenios.ToList();
             return View(convenios);
         }
 
@@ -30,14 +31,14 @@ namespace Agendamento.Controllers
         [HttpPost]
         public IActionResult Create(Convenio convenio)
         {
-            _context.Conveios.Add(convenio);
+            _context.Convenios.Add(convenio);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
-            var convenio = _context.Conveios.Find(id);
+            var convenio = _context.Convenios.Find(id);
             if (convenio == null)
             {
                 return NotFound();
@@ -56,27 +57,34 @@ namespace Agendamento.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var convenio = _context.Convenios.Find(id);
+            return View(convenio);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            ViewBag.error = null;
             try
             {
-                var convenio = _context.Conveios.Find(id);
+                var convenio = _context.Convenios.Find(id);
 
-                if (convenio == null)
+                var pacienteComConvenio = _context.Pacientes.Where(e => e.ConvenioId == id);
+                if (pacienteComConvenio.Count() > 0)
                 {
-                    return Json(new { error = "Agendamento não encontrado!" });
+                    throw new Exception("Não é possível excluir esse convênio pois existem pacientes que o utilizam.");
                 }
-                else
-                {
-                    _context.Conveios.Remove(convenio);
-                    _context.SaveChanges();
-                    return Json(new { success = "Agendamento excluído!" });
-                }
+                _context.Convenios.Remove(convenio);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return Json(new { error = e.Message });
+                ViewBag.error = e.Message;
+                var convenio = _context.Convenios.Find(id);
+                return View("Delete", convenio);
             }
         }
     }

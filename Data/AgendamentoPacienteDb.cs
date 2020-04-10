@@ -14,8 +14,8 @@ namespace AgendamentoPaciente.Data
         }
         public DbSet<Agendamentos> Agendamentos { get; set; }
         public DbSet<Clinica> Clinicas { get; set; }
-        public DbSet<Convenio> Conveios { get; set; }
+        public DbSet<Convenio> Convenios { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
-        public DbSet<SituacaoAgentamento> SituacaoAgentamentos { get; set; }
+        public DbSet<SituacaoAgendamento> SituacaoAgendamentos { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace AgendamentoPacientes.Models
     public class Convenio
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Campo obrigatório")]
         public String Nome { get; set; }        
     }
 }

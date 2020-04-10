@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AgendamentoPaciente.Data;
 using AgendamentoPacientes.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agendamento.Controllers
 {
@@ -18,12 +20,13 @@ namespace Agendamento.Controllers
         }
         public IActionResult Index()
         {
-            var pacientes = _context.Pacientes.ToList();
-            return View(pacientes);
+            var pacientes = _context.Pacientes.Include(e => e.Convenio);
+            return View(pacientes.ToList());
         }
 
         public IActionResult Create()
         {
+            ViewBag.Convenio = new SelectList(_context.Convenios, "Id", "Nome");
             return View();
         }
 
@@ -37,14 +40,15 @@ namespace Agendamento.Controllers
 
         public IActionResult Edit(int id)
         {
-            var clinica = _context.Pacientes.Find(id);
-            if (clinica == null)
+            ViewBag.Convenio = new SelectList(_context.Convenios, "Id", "Nome");
+            var paciente = _context.Pacientes.Find(id);
+            if (paciente == null)
             {
                 return NotFound();
             }
             else
             {
-                return View(clinica);
+                return View(paciente);
             }
         }
 
@@ -56,27 +60,37 @@ namespace Agendamento.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var pacientes = _context.Pacientes.Include(e => e.Convenio);
+            var paciente = pacientes.Where(e => e.Id == id).FirstOrDefault();
+            return View(paciente);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            ViewBag.error = null;
             try
             {
-                var clinica = _context.Pacientes.Find(id);
+                var pacientes = _context.Pacientes.Include(e => e.Convenio);
+                var paciente = pacientes.Where(e => e.Id == id).FirstOrDefault();
 
-                if (clinica == null)
+                var agendamentoExistentePaciente = _context.Agendamentos.Where(e => e.PacienteId == id);
+                if (agendamentoExistentePaciente.Count() > 0)
                 {
-                    return Json(new { error = "Agendamento não encontrado!" });
+                    throw new Exception("Não é possível excluir esse paciente pois existem agendamentos para ele.");
                 }
-                else
-                {
-                    _context.Pacientes.Remove(clinica);
-                    _context.SaveChanges();
-                    return Json(new { success = "Agendamento excluído!" });
-                }
+                _context.Pacientes.Remove(paciente);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return Json(new { error = e.Message });
+                ViewBag.error = e.Message;
+                var pacientes = _context.Pacientes.Include(e => e.Convenio);
+                var paciente = pacientes.Where(e => e.Id == id).FirstOrDefault();
+                return View("Delete", paciente);
             }
         }
     }

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Clínicas";
+    var endereco = "";
 }
 
 <h1>Clínicas</h1>
@@ -32,6 +33,10 @@
     <tbody>
         @foreach (var item in Model)
         {
+
+            {
+                endereco = item.Cep.ToString() + " - " + item.Logradouro + " - " + item.Numero.ToString();
+            }
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
@@ -43,7 +48,7 @@
                     @Html.DisplayFor(modelItem => item.Telefone)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => (item.Cep + " - " + item.Logradouro + " - " + item.Complemento))
+                    @endereco
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

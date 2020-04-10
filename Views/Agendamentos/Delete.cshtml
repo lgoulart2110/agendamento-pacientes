@@ -1,0 +1,55 @@
+﻿@model AgendamentoPacientes.Models.Agendamentos
+
+@{
+    ViewData["Title"] = "Excluir Agendamento";
+    var error = ViewBag.error;
+}
+
+<h1>Excluir Agendamento</h1>
+
+<h3>Deseja realmente excluir esse agendamento?</h3>
+<div>
+
+    <hr />
+    @if (error != null)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Clinica.Nome)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Clinica.Nome)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Paciente.Nome)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Paciente.Nome)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.DataAtendimento)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.DataAtendimento)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SituacaoAgendamento.Situacao)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SituacaoAgendamento.Situacao)
+        </dd>
+
+    </dl>
+
+    <form asp-action="DeleteConfirmed">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Excluir" class="btn btn-danger" />
+
+    </form>
+    <a asp-action="Index">
+        <button class="btn btn-primary mt-2">Cancelar</button>
+    </a>
+</div>
