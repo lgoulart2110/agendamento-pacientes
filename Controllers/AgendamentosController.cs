@@ -62,5 +62,26 @@ namespace Agendamento.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult Edit(int id)
+        {
+            var agendamento = _context.Agendamentos.Find(id);
+            if (agendamento == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(agendamento);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Agendamentos agendamento)
+        {
+            _context.Update(agendamento);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
