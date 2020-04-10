@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Agendamentos Disponíveis";
+    var clinica = ViewBag.Clinica;
+    var agendamentoDisponivel = ViewBag.AgendamentoDisponivel;
+}
+
+<h1>Agendamentos Disponíveis</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Clínica
+            </th>
+            <th>
+                Agendamentos disponíveis
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @clinica
+            </td>
+            <td>
+                @agendamentoDisponivel
+            </td>
+        </tr>        
+    </tbody>
+</table>
+
+<a asp-controller="Relatorios" asp-action="RelatorioClinicas">
+    <button class="btn btn-success">Voltar</button>
+</a>
+

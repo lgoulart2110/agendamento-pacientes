@@ -27,6 +27,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Convenios" asp-action="Index">Convênio</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Relatórios
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Relatorios" asp-action="RelatorioPacientes">Relatório de Pacientes</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-controller="Relatorios" asp-action="RelatorioClinicas">Relatório de Clínicas</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

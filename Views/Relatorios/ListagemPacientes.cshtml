@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AgendamentoPacientes.Models.Agendamentos>
+@{
+    ViewData["Title"] = "Listagem de Pacientes";
+}
+
+<h1>Listagem de Pacientes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Paciente
+            </th>
+            <th>
+                Data de Atendimento
+            </th>
+            <th>
+                Clínica
+            </th>
+            <th>
+                Situação do Agendamento
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAtendimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clinica.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SituacaoAgendamento.Situacao)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Relatorios" asp-action="RelatorioPacientes">
+    <button class="btn btn-success">Voltar</button>
+</a>
