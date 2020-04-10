@@ -10,6 +10,7 @@ namespace AgendamentoPacientes.Models
         public int Id { get; set; }
         public String Nome { get; set; }
         public String Cpf { get; set; }
+        public String Telefone { get; set; }
         public String Email { get; set; }
         public int? ConvenioId { get; set; }
         public Convenio Convenio { get; set; }

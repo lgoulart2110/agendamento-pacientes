@@ -1,0 +1,62 @@
+﻿@model IEnumerable<AgendamentoPacientes.Models.Agendamentos>
+
+@{
+    ViewData["Title"] = "Agendamentos";
+}
+
+<h1>Agendamentos</h1>
+
+<p>
+    <a asp-action="Create">
+        <button class="btn btn-success">Adicionar Agendamento</button>
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Clínica
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                Data de Atendimento
+            </th>
+            <th>
+                Situação do Agendamento
+            </th>
+            <th>
+                Convênio
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clinica.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAtendimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SituacaoAgentamento.Situacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.Convenio != null ? item.Paciente.Convenio.Nome : "Particular")
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

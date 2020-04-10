@@ -1,0 +1,52 @@
+﻿@model AgendamentoPacientes.Models.Agendamentos
+
+@{
+    ViewData["Title"] = "Realizar Agendamento";
+}
+
+<div class="container">
+    <div class="col-md-12">
+        <h5>Agendamento</h5>
+        <form asp-action="Create">
+            <input type="hidden" asp-for="SituacaoAgendamentoId" value="1" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" asp-for="ClinicaId">Clínica</label>
+                <div class="col-md-5">
+                    <select class="form-control" asp-for="ClinicaId" asp-items="ViewBag.Clinica"></select>
+                    <span asp-validation-for="ClinicaId" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <a asp-controller="Clinicas" asp-action="Create"><button type="button" class="btn btn-success">Adicionar Clínica</button></a>                    
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" asp-for="PacienteId">Paciente</label>
+                <div class="col-md-5">
+                    <select class="form-control" asp-for="PacienteId" asp-items="ViewBag.Paciente"></select>
+                    <span asp-validation-for="PacienteId" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <a asp-controller="Pacientes" asp-action="Create"><button type="button" class="btn btn-success">Adicionar Paciente</button></a>                    
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="DataAtendimento" class="col-md-2 col-form-label"></label>
+                <div class="col-md-5">
+                    <input asp-for="DataAtendimento" class="form-control" />
+                    <span asp-validation-for="DataAtendimento" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a asp-action="Index"><button type="button" class="btn btn-danger">Cancelar</button></a>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,28 @@
+﻿@model AgendamentoPacientes.Models.Convenio
+
+@{
+    ViewData["Title"] = "Adicionar Convênio";
+}
+
+<div class="container">
+    <div class="col-md-12">
+        <h5>Adicionar Convênio</h5>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="Nome" class="col-md-2 col-form-label"></label>
+                <div class="col-md-5">
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+            </div>            
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a asp-action="Index"><button type="button" class="btn btn-danger">Cancelar</button></a>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

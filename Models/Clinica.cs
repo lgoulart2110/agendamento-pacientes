@@ -11,6 +11,9 @@ namespace AgendamentoPacientes.Models
         public String Nome { get; set; }
         public String Cnpj { get; set; }
         public String Telefone { get; set; }
-        public Endereco Endereco { get; set; }
+        public String Cep { get; set; }
+        public String Logradouro { get; set; }
+        public String Numero { get; set; }
+        public String Complemento { get; set; }
     }
 }
