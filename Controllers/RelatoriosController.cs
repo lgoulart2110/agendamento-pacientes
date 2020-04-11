@@ -6,7 +6,6 @@ using AgendamentoPaciente.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Rotativa;
 
 namespace Agendamento.Controllers
 {

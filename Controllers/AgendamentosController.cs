@@ -20,7 +20,7 @@ namespace Agendamento.Controllers
         }
         public IActionResult Index()
         {
-            var agendamentos = _context.Agendamentos.Include(e => e.Clinica).Include(e => e.Paciente).Include(e => e.SituacaoAgendamento).Include(e => e.Paciente.Convenio);
+            var agendamentos = _context.Agendamentos.Include(e => e.Clinica).Include(e => e.Paciente).Include(e => e.SituacaoAgendamento).Include(e => e.Paciente.Convenio).OrderBy(e => e.DataAtendimento);
             return View(agendamentos.ToList());
         }
 
