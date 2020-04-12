@@ -19,7 +19,7 @@ namespace Agendamento.Controllers
         }
         public IActionResult Index()
         {
-            var clinicas = _context.Clinicas.ToList();
+            var clinicas = _context.Clinicas.OrderBy(e => e.Nome).ToList();
             return View(clinicas);
         }
 
@@ -31,9 +31,23 @@ namespace Agendamento.Controllers
         [HttpPost]
         public IActionResult Create(Clinica clinica)
         {
-            _context.Clinicas.Add(clinica);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.error = null;
+            try
+            {
+                if (_context.Clinicas.Where(e => e.Cnpj == clinica.Cnpj).Count() > 0)
+                {
+                    throw new Exception("Já existe uma clínica criada com esse CNPJ");
+                }
+
+                _context.Clinicas.Add(clinica);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.error = e.Message;
+                return View();
+            }
         }
 
         public IActionResult Edit(int id)
@@ -52,9 +66,22 @@ namespace Agendamento.Controllers
         [HttpPost]
         public IActionResult Edit(Clinica clinica)
         {
-            _context.Update(clinica);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.error = null;
+            try
+            {
+                if (_context.Clinicas.Where(e => e.Cnpj == clinica.Cnpj && e.Id != clinica.Id).Count() > 0)
+                {
+                    throw new Exception("Já existe uma clínica criada com esse CNPJ");
+                }
+                _context.Update(clinica);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch(Exception e)
+            {
+                ViewBag.error = e.Message;
+                return View(clinica);
+            }
         }
 
         public IActionResult Delete(int id)

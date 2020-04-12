@@ -2,12 +2,17 @@
 
 @{
     ViewData["Title"] = "Editar Clínica";
+    var error = ViewBag.error;
 }
 
 <h4>Clínica</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @if (error != null)
+        {
+            <h6 class="text-danger">@error</h6>
+        }
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />

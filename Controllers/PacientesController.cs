@@ -20,7 +20,7 @@ namespace Agendamento.Controllers
         }
         public IActionResult Index()
         {
-            var pacientes = _context.Pacientes.Include(e => e.Convenio);
+            var pacientes = _context.Pacientes.Include(e => e.Convenio).OrderBy(e => e.Nome);
             return View(pacientes.ToList());
         }
 
@@ -33,9 +33,29 @@ namespace Agendamento.Controllers
         [HttpPost]
         public IActionResult Create(Paciente paciente)
         {
-            _context.Pacientes.Add(paciente);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.error = null;
+            try
+            {
+                if (_context.Pacientes.Where(e => e.Cpf == paciente.Cpf).Count() > 0)
+                {
+                    throw new Exception("Já existe um paciente com esse CPF cadastrado.");
+                }
+
+                if (_context.Pacientes.Where(e => e.Email == paciente.Email).Count() > 0)
+                {
+                    throw new Exception("Já existe um paciente com esse E-mail cadastrado.");
+                }
+                
+                _context.Pacientes.Add(paciente);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.error = e.Message;
+                ViewBag.Convenio = new SelectList(_context.Convenios, "Id", "Nome");
+                return View();
+            }
         }
 
         public IActionResult Edit(int id)
@@ -55,9 +75,28 @@ namespace Agendamento.Controllers
         [HttpPost]
         public IActionResult Edit(Paciente paciente)
         {
-            _context.Update(paciente);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.error = null;
+            try
+            {
+                if (_context.Pacientes.Where(e => e.Cpf == paciente.Cpf && e.Id != paciente.Id).Count() > 0)
+                {
+                    throw new Exception("Já existe um paciente com esse CPF cadastrado.");
+                }
+
+                if (_context.Pacientes.Where(e => e.Email == paciente.Email && e.Id != paciente.Id).Count() > 0)
+                {
+                    throw new Exception("Já existe um paciente com esse E-mail cadastrado.");
+                }
+                _context.Update(paciente);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch(Exception e)
+            {
+                ViewBag.error = e.Message;
+                ViewBag.Convenio = new SelectList(_context.Convenios, "Id", "Nome");
+                return View(paciente);
+            }
         }
 
         public IActionResult Delete(int id)
